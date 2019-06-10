@@ -6,22 +6,32 @@
         <input type="submit" class="form-control col-sm-3" :disabled="nomTache == ''" />
       </form>
 
-      <div class="row rounded-bottom">
-        <table class="table table-hover mb-0 text-left border">
+      <div class="row rounded-bottom"
+      v-if="taches">
+        <table class="table table-hover mb-0 border">
           <thead>
             <tr>
-              <th class="col-sm-2">#</th>
-              <th class="col-sm-6">Tache</th>
+              <th class="col-sm-1">#</th>
+              <th class="col-sm-5 text-left">Tache</th>
               <th class="col-sm-2">Fait</th>
+              <th class="col-sm-2">Sous-tache</th>
               <th class="col-sm-2">Supprimer</th>
             </tr>
           </thead>
           <tbody>
             <tr
             v-for="(tache, index) of taches" :key="index">
-                <td class="col-sm-2">{{ index+1 }}</td>
-                <td class="col-sm-6">{{ tache.nom }}</td>
+                <td class="col-sm-1">{{ index+1 }}</td>
+                <td class="col-sm-5 text-left">{{ tache.nom }}
+                  <tr class="row"
+                  v-if="tache.ssTache">
+                    <td class="col-sm-8 text-left">{{ tache.ssTache.nom }}</td>
+                    <td class="col-sm-2"><input type="checkbox" />{{ tache.ssTache.done }}</td>
+                    <td class="col-sm-2"><button class="btn btn-danger">Supprimer</button></td>
+                  </tr>
+                </td>
                 <td class="col-sm-2"><input type="checkbox" v-model="tache.done"/></td>
+                <td class="col-sm-2"><button class="btn btn-danger" @click="ssTache(index)">Ajouter une sous-tache</button></td>
                 <td class="col-sm-2"><button class="btn btn-danger" @click="suppr(index)">Supprimer</button></td>
             </tr>
           </tbody>
@@ -36,8 +46,10 @@ export default {
   name: 'TableauTaches',
   data: function() {
     return  {
-      nomTache : '',
-      taches: []
+      nomTache: '',
+      taches: []/*,
+      nomSsTache: '',
+      ssTaches: []*/
     }
   },
   methods: {
@@ -45,6 +57,12 @@ export default {
       this.taches.push({nom: this.nomTache, done: false })
       this.$emit('sendTaches', this.taches)
       this.nomTache = ''
+    },
+    ssTache: function(index) {
+      /*this.taches[index].ssTache = {
+        nom: '',
+        done: false
+      }*/
     },
     suppr: function(index) {
       if(confirm('Voulez-vous vraiment supprimer cette tâche ?')) {

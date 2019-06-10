@@ -25,19 +25,7 @@
     export default {
         name: 'FinishTaches',
         props: {
-            tabTaches: Array
-        },
-        computed: {
-            doneTaches: function () {
-               let doneTaches = []
-               for (let i = 0; i < this.tabTaches.length; i++) {
-                   console.log(tabTaches[i])
-                   if (this.tabTaches[i].done) {
-                       this.doneTaches.push(tabTaches[i].nom)
-                   }
-                }
-                return this.doneTaches 
-            }
+            doneTaches: Array
         }
     }
 </script>

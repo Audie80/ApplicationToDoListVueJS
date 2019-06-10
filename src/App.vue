@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TableauTaches @sendTaches="setTaches" />
-    <FinishTaches :tabTaches="tabTaches" />
+    <FinishTaches :doneTaches="doneTaches" />
   </div>
 </template>
 
@@ -17,9 +17,22 @@ export default {
   },
   data: function () {
     return {
-      tabTaches: null
+      tabTaches: []
     }
   },
+  /*computed: {
+    doneTaches: function () {
+      let doneTaches = []
+      if (this.tabTaches.length > 0) {
+        for (let i = 0; i < this.tabTaches.length; i++) {
+          if (this.tabTaches[i].done) {
+            this.doneTaches.push(this.tabTaches[i].nom)
+          }
+        }
+      }
+      return this.doneTaches 
+    }
+  },*/
   methods: {
     setTaches: function (taches) {
         this.tabTaches = taches
