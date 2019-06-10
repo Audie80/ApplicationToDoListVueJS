@@ -1,16 +1,29 @@
 <template>
-  <div id="app" class="container-fluid">
-    <TableauTaches class="container-fluid"/>
+  <div id="app">
+    <TableauTaches @sendTaches="setTaches" />
+    <FinishTaches :tabTaches="tabTaches" />
   </div>
 </template>
 
 <script>
 import TableauTaches from './components/TableauTaches.vue'
+import FinishTaches from './components/FinishTaches.vue'
 
 export default {
   name: 'app',
   components: {
-    TableauTaches
+    TableauTaches,
+    FinishTaches
+  },
+  data: function () {
+    return {
+      tabTaches: null
+    }
+  },
+  methods: {
+    setTaches: function (taches) {
+        this.tabTaches = taches
+    }
   }
 }
 </script>
