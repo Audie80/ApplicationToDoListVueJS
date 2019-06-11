@@ -19,12 +19,16 @@
           </thead>
           <tbody>
             <tr
-            v-for="(tache, index) of taches" :key="index">
+            v-for="(tache, index) of taches" :key="index" v-if="!tache.done">
                 <td class="col-sm-1">{{ index+1 }}</td>
                 <td class="col-sm-5 text-left">{{ tache.nom }}
                   <tr class="row"
                   v-if="tache.ssTache">
-                    <td class="col-sm-8 text-left">{{ tache.ssTache.nom }}</td>
+                    <!-- <form @submit.prevent="addSsTache" class="form-group row bg-light rounded-top p-3 border mb-0">
+                      <input type="text" class="form-control col-sm-8 mr-auto" v-model.trim="nomSsTache" placeholder="Nom de sous-tâche" />
+                      <input type="submit" class="form-control col-sm-3" :disabled="nomSsTache == ''" />
+                    </form> -->
+                    <td class="col-sm-8 text-left"><input type="text" v-model.trim="tache.ssTache[0].nom" /></td>
                     <td class="col-sm-2"><input type="checkbox" />{{ tache.ssTache.done }}</td>
                     <td class="col-sm-2"><button class="btn btn-danger">Supprimer</button></td>
                   </tr>
@@ -45,9 +49,7 @@ export default {
   data: function() {
     return  {
       nomTache: '',
-      taches: []/*,
-      nomSsTache: '',
-      ssTaches: []*/
+      taches: []
     }
   },
   watch: {
@@ -57,14 +59,14 @@ export default {
   },
   methods: {
     add: function() {
-      this.taches.push({nom: this.nomTache, done: false })
+      this.taches.push({nom: this.nomTache, done: false, ssTache: null })
       this.nomTache = ''
     },
     ssTache: function(index) {
-      /*this.taches[index].ssTache = {
+      this.taches[index].ssTache = [{
         nom: '',
         done: false
-      }*/
+      }]
     },
     suppr: function(index) {
       if(confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
