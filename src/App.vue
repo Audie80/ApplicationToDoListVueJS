@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <TableauTaches @sendTaches="setTaches" />
-    <FinishTaches :doneTaches="doneTaches" />
+    <FinishTaches :doneTaches="doneTachesComputed" />
   </div>
 </template>
 
@@ -17,21 +17,23 @@ export default {
   },
   data: function () {
     return {
-      tabTaches: []
+      tabTaches: (localStorage.getItem('tabTaches')) ? JSON.parse(localStorage.getItem('tabTaches')) : [],
+      doneTaches: []
     }
   },
-  /*computed: {
-    doneTaches: function () {
-      let doneTaches = []
-      if (this.tabTaches.length > 0) {
-        for (let i = 0; i < this.tabTaches.length; i++) {
-          if (this.tabTaches[i].done) {
-            this.doneTaches.push(this.tabTaches[i].nom)
-          }
-        }
-      }
+  computed: {
+    doneTachesComputed: function () {
+      this.doneTaches = this.tabTaches.filter(tache => tache.done === true)
       return this.doneTaches 
     }
+  },
+  watch: {
+    tabTaches: function () {
+      localStorage.setItem('tabTaches', JSON.stringify(this.tabTaches))
+    }
+  },
+  /*beforeUpdate: function () {
+    this.tabTaches = this.tabTaches.filter(tache => tache.done === false)
   },*/
   methods: {
     setTaches: function (taches) {

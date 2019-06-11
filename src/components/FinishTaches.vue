@@ -1,6 +1,6 @@
 <template>
-    <div class="container-fluid mt-5">
-      <div class="container-fluid shadow"
+    <div class="container mt-5">
+      <div class="container shadow"
       v-if="doneTaches" > 
         <div class="row justify-content-md-center">
             <table class="table mb-0 text-left border rounded">
@@ -12,7 +12,7 @@
             <tbody>
                 <tr
                 v-for="(tache, index) of doneTaches" :key="index" class="table-light">
-                    <td class="col-md-auto">{{ tache }}</td>
+                    <td class="col-md-auto">{{ tache.nom }}</td>
                 </tr>
             </tbody>
             </table>

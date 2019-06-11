@@ -1,8 +1,7 @@
 <template>
-  <div class="container-fluid">
-    <div class="container-fluid shadow bg-white"> 
+    <div class="container shadow bg-white"> 
       <form @submit.prevent="add" class="form-group row bg-light rounded-top p-3 border mb-0">
-        <input type="text" class="form-control col-sm-8 mr-auto" v-model="nomTache" placeholder="Nom de tâche" />
+        <input type="text" class="form-control col-sm-8 mr-auto" v-model.trim="nomTache" placeholder="Nom de tâche" />
         <input type="submit" class="form-control col-sm-3" :disabled="nomTache == ''" />
       </form>
 
@@ -38,7 +37,6 @@
         </table>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -52,10 +50,14 @@ export default {
       ssTaches: []*/
     }
   },
+  watch: {
+    taches: function () {
+      this.$emit('sendTaches', this.taches)
+    }
+  },
   methods: {
     add: function() {
       this.taches.push({nom: this.nomTache, done: false })
-      this.$emit('sendTaches', this.taches)
       this.nomTache = ''
     },
     ssTache: function(index) {
@@ -68,12 +70,7 @@ export default {
       if(confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
         this.taches.splice(index, 1)
       }
-    },
-    /*watch: {
-      taches: function() {
-        localStorage.setItem('taches', JSON.stringify(this.taches))
-      }
-    }*/
+    }
   }
 }
 </script>
