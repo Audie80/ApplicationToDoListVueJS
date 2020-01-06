@@ -22,12 +22,13 @@ export default {
     }
   },
   computed: {
+    
+  },
+  watch: {
     doneTachesComputed: function () {
       this.doneTaches = this.tabTaches.filter(tache => tache.done === true)
       return this.doneTaches 
-    }
-  },
-  watch: {
+    },
     tabTaches: function () {
       localStorage.setItem('tabTaches', JSON.stringify(this.tabTaches))
     }

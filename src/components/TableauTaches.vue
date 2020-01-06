@@ -19,7 +19,7 @@
           </thead>
           <tbody>
             <tr
-            v-for="(tache, index) of taches" :key="index" v-if="!tache.done">
+            v-for="(tache, index) of taches" :key="index" v-show="!tache.done">
                 <td class="col-sm-1">{{ index+1 }}</td>
                 <td class="col-sm-5 text-left">{{ tache.nom }}
                   <tr class="row"
