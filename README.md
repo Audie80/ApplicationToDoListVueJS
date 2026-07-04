@@ -71,25 +71,78 @@ npm run lint
 ```
 Vérifie et corrige le code selon les règles ESLint.
 
+### Tests end-to-end
+```bash
+npm run e2e
+```
+Ouvre l'interface interactive Cypress pour exécuter les tests E2E.
+
+```bash
+npm run e2e:run
+```
+Exécute les tests E2E en mode headless (idéal pour CI/CD).
+
+## 🧪 Tests E2E (Cypress)
+
+Les tests end-to-end couvrent toutes les fonctionnalités principales :
+
+### Tests disponibles
+
+1. **add-tasks.cy.ts** - Ajout de tâches
+   - Affichage de l'application
+   - Ajout d'une nouvelle tâche
+   - Validation du bouton (désactivé si vide)
+   - Ajout de multiples tâches
+   - Nettoyage de l'input après ajout
+
+2. **complete-delete-tasks.cy.ts** - Complétion et suppression
+   - Marquer une tâche comme terminée
+   - Masquer les tâches complétées
+   - Afficher les tâches complétées
+   - Supprimer une tâche
+   - Annuler la suppression
+
+3. **subtasks.cy.ts** - Sous-tâches
+   - Ajouter une sous-tâche
+   - Éditer le nom de la sous-tâche
+   - Marquer une sous-tâche comme complétée
+
+4. **persistence.cy.ts** - Persistance localStorage
+   - Sauvegarder les tâches dans localStorage
+   - Charger les tâches après rechargement
+   - Persister l'état de complétion
+   - Persister plusieurs changements d'état
+   - Vérifier le nettoyage du localStorage
+
 ## 📁 Structure du Projet
 
 ```
 .
-├── index.html              # Fichier HTML principal (point d'entrée Vite)
-├── vite.config.ts          # Configuration Vite (TypeScript)
-├── tsconfig.json           # Configuration TypeScript
-├── tsconfig.node.json      # Configuration TypeScript pour config files
-├── eslint.config.js        # Configuration ESLint (flat config)
-├── package.json            # Dépendances et scripts
+├── index.html                  # Fichier HTML principal (point d'entrée Vite)
+├── vite.config.ts              # Configuration Vite (TypeScript)
+├── cypress.config.ts           # Configuration Cypress E2E
+├── tsconfig.json               # Configuration TypeScript
+├── tsconfig.node.json          # Configuration TypeScript pour config files
+├── eslint.config.js            # Configuration ESLint (flat config)
+├── package.json                # Dépendances et scripts
 ├── src/
-│   ├── main.ts            # Point d'entrée Vue (TypeScript)
-│   ├── vite-env.d.ts      # Types globaux Vite
-│   ├── App.vue            # Composant racine
+│   ├── main.ts                 # Point d'entrée Vue (TypeScript)
+│   ├── vite-env.d.ts           # Types globaux Vite
+│   ├── App.vue                 # Composant racine
 │   └── components/
-│       ├── TableauTaches.vue    # Composant pour ajouter et lister les tâches
-│       └── FinishTaches.vue     # Composant pour afficher les tâches terminées
+│       ├── TableauTaches.vue   # Composant pour ajouter et lister les tâches
+│       └── FinishTaches.vue    # Composant pour afficher les tâches terminées
+├── cypress/
+│   ├── support/
+│   │   └── e2e.ts              # Configuration support Cypress
+│   └── e2e/
+│       ├── add-tasks.cy.ts             # Tests d'ajout de tâches
+│       ├── complete-delete-tasks.cy.ts # Tests de complétion/suppression
+│       ├── subtasks.cy.ts              # Tests des sous-tâches
+│       └── persistence.cy.ts           # Tests de persistance localStorage
 └── public/
-    └── favicon.ico        # Favicon
+    └── favicon.ico             # Favicon
+```
 ```
 
 ## 🎯 Utilisation
