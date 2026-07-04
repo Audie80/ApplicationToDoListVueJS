@@ -1,9 +1,9 @@
 <template>
     <div class="container mt-5">
       <div class="container shadow"
-      v-if="doneTaches" > 
+      v-if="doneTaches" data-ci="completed-tasks-section"> 
         <div class="row justify-content-md-center">
-            <table class="table mb-0 text-left border rounded">
+            <table class="table mb-0 text-left border rounded" data-ci="completed-tasks-table">
             <thead class="thead-light">
                 <tr>
                 <th class="col-md-auto">Taches terminées</th>
@@ -21,13 +21,16 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'FinishTaches',
-        props: {
-            doneTaches: Array
-        }
-    }
+<script setup lang="ts">
+interface Tache {
+  nom: string
+  done: boolean
+  ssTache: { nom: string; done: boolean }[] | null
+}
+
+defineProps<{
+  doneTaches: Tache[]
+}>()
 </script>
 
 <style scoped>

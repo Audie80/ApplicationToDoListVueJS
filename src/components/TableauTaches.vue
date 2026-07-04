@@ -1,13 +1,13 @@
 <template>
-    <div class="container shadow bg-white"> 
-      <form @submit.prevent="add" class="form-group row bg-light rounded-top p-3 border mb-0">
-        <input type="text" class="form-control col-sm-8 mr-auto" v-model.trim="nomTache" placeholder="Nom de tâche" />
-        <input type="submit" class="form-control col-sm-3" :disabled="nomTache == ''" />
+    <div class="container shadow bg-white" data-ci="task-list-app"> 
+      <form @submit.prevent="add" class="form-group row bg-light rounded-top p-3 border mb-0" data-ci="task-form">
+        <input type="text" class="form-control col-sm-8 mr-auto" v-model.trim="nomTache" placeholder="Nom de tâche" data-ci="task-name-input" />
+        <input type="submit" class="form-control col-sm-3" :disabled="nomTache == ''" data-ci="task-submit-button" />
       </form>
 
       <div class="row rounded-bottom"
       v-if="taches">
-        <table class="table table-hover mb-0 border">
+        <table class="table table-hover mb-0 border" data-ci="task-table">
           <thead>
             <tr>
               <th class="col-sm-1">#</th>
@@ -19,23 +19,23 @@
           </thead>
           <tbody>
             <tr
-            v-for="(tache, index) of taches" :key="index" v-show="!tache.done">
-                <td class="col-sm-1">{{ index+1 }}</td>
-                <td class="col-sm-5 text-left">{{ tache.nom }}
+            v-for="(tache, index) of taches" :key="index" v-show="!tache.done" data-ci="task-row">
+                <td class="col-sm-1" data-ci="task-index">{{ index+1 }}</td>
+                <td class="col-sm-5 text-left" data-ci="task-name">{{ tache.nom }}
                   <tr class="row"
-                  v-if="tache.ssTache">
+                  v-if="tache.ssTache" data-ci="subtask-row">
                     <!-- <form @submit.prevent="addSsTache" class="form-group row bg-light rounded-top p-3 border mb-0">
                       <input type="text" class="form-control col-sm-8 mr-auto" v-model.trim="nomSsTache" placeholder="Nom de sous-tâche" />
                       <input type="submit" class="form-control col-sm-3" :disabled="nomSsTache == ''" />
                     </form> -->
-                    <td class="col-sm-8 text-left"><input type="text" v-model.trim="tache.ssTache[0].nom" /></td>
-                    <td class="col-sm-2"><input type="checkbox" />{{ tache.ssTache.done }}</td>
-                    <td class="col-sm-2"><button class="btn btn-danger">Supprimer</button></td>
+                    <td class="col-sm-8 text-left"><input type="text" v-model.trim="tache.ssTache[0].nom" data-ci="subtask-name-input" /></td>
+                    <td class="col-sm-2"><input type="checkbox" v-model="tache.ssTache[0].done" data-ci="subtask-checkbox" /></td>
+                    <td class="col-sm-2"><button class="btn btn-danger" data-ci="subtask-delete-button">Supprimer</button></td>
                   </tr>
                 </td>
-                <td class="col-sm-2"><input type="checkbox" v-model="tache.done"/></td>
-                <td class="col-sm-2"><button class="btn btn-danger" @click="ssTache(index)">Ajouter une sous-tache</button></td>
-                <td class="col-sm-2"><button class="btn btn-danger" @click="suppr(index)">Supprimer</button></td>
+                <td class="col-sm-2"><input type="checkbox" v-model="tache.done" data-ci="task-complete-checkbox"/></td>
+                <td class="col-sm-2"><button class="btn btn-danger" @click="ssTache(index)" data-ci="add-subtask-button">Ajouter une sous-tache</button></td>
+                <td class="col-sm-2"><button class="btn btn-danger" @click="suppr(index)" data-ci="delete-task-button">Supprimer</button></td>
             </tr>
           </tbody>
         </table>
@@ -43,38 +43,57 @@
     </div>
 </template>
 
-<script>
-export default {
-  name: 'TableauTaches',
-  data: function() {
-    return  {
-      nomTache: '',
-      taches: []
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+
+interface Tache {
+  nom: string
+  done: boolean
+  ssTache: { nom: string; done: boolean }[] | null
+}
+
+const props = defineProps<{
+  initialTaches?: Tache[]
+}>()
+
+const emit = defineEmits<{
+  sendTaches: [taches: Tache[]]
+}>()
+
+const nomTache = ref('')
+const taches = ref<Tache[]>([])
+
+watch(
+  () => props.initialTaches,
+  (newValue) => {
+    if (newValue) {
+      taches.value = [...newValue]
     }
   },
-  watch: {
-    taches: function () {
-      this.$emit('sendTaches', this.taches)
-    }
-  },
-  methods: {
-    add: function() {
-      this.taches.push({nom: this.nomTache, done: false, ssTache: null })
-      this.nomTache = ''
-    },
-    ssTache: function(index) {
-      this.taches[index].ssTache = [{
-        nom: '',
-        done: false
-      }]
-    },
-    suppr: function(index) {
-      if(confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
-        this.taches.splice(index, 1)
-      }
-    }
+  { immediate: true, deep: true }
+)
+
+const add = (): void => {
+  taches.value.push({ nom: nomTache.value, done: false, ssTache: null })
+  nomTache.value = ''
+}
+
+const ssTache = (index: number): void => {
+  taches.value[index].ssTache = [{
+    nom: '',
+    done: false
+  }]
+}
+
+const suppr = (index: number): void => {
+  if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
+    taches.value.splice(index, 1)
   }
 }
+
+watch(taches, () => {
+  emit('sendTaches', taches.value)
+}, { deep: true })
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
