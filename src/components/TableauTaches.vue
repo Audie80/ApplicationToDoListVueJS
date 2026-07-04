@@ -43,38 +43,35 @@
     </div>
 </template>
 
-<script>
-export default {
-  name: 'TableauTaches',
-  data: function() {
-    return  {
-      nomTache: '',
-      taches: []
-    }
-  },
-  watch: {
-    taches: function () {
-      this.$emit('sendTaches', this.taches)
-    }
-  },
-  methods: {
-    add: function() {
-      this.taches.push({nom: this.nomTache, done: false, ssTache: null })
-      this.nomTache = ''
-    },
-    ssTache: function(index) {
-      this.taches[index].ssTache = [{
-        nom: '',
-        done: false
-      }]
-    },
-    suppr: function(index) {
-      if(confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
-        this.taches.splice(index, 1)
-      }
-    }
+<script setup>
+import { ref, watch } from 'vue'
+
+const emit = defineEmits(['sendTaches'])
+
+const nomTache = ref('')
+const taches = ref([])
+
+const add = () => {
+  taches.value.push({ nom: nomTache.value, done: false, ssTache: null })
+  nomTache.value = ''
+}
+
+const ssTache = (index) => {
+  taches.value[index].ssTache = [{
+    nom: '',
+    done: false
+  }]
+}
+
+const suppr = (index) => {
+  if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
+    taches.value.splice(index, 1)
   }
 }
+
+watch(taches, () => {
+  emit('sendTaches', taches.value)
+}, { deep: true })
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -21,13 +21,13 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'FinishTaches',
-        props: {
-            doneTaches: Array
-        }
-    }
+<script setup>
+defineProps({
+  doneTaches: {
+    type: Array,
+    default: () => []
+  }
+})
 </script>
 
 <style scoped>
