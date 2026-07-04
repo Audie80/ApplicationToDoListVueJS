@@ -29,7 +29,7 @@
                       <input type="submit" class="form-control col-sm-3" :disabled="nomSsTache == ''" />
                     </form> -->
                     <td class="col-sm-8 text-left"><input type="text" v-model.trim="tache.ssTache[0].nom" /></td>
-                    <td class="col-sm-2"><input type="checkbox" />{{ tache.ssTache.done }}</td>
+                    <td class="col-sm-2"><input type="checkbox" v-model="tache.ssTache[0].done" /></td>
                     <td class="col-sm-2"><button class="btn btn-danger">Supprimer</button></td>
                   </tr>
                 </td>
@@ -43,27 +43,35 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
 
-const emit = defineEmits(['sendTaches'])
+interface Tache {
+  nom: string
+  done: boolean
+  ssTache: { nom: string; done: boolean }[] | null
+}
+
+const emit = defineEmits<{
+  sendTaches: [taches: Tache[]]
+}>()
 
 const nomTache = ref('')
-const taches = ref([])
+const taches = ref<Tache[]>([])
 
-const add = () => {
+const add = (): void => {
   taches.value.push({ nom: nomTache.value, done: false, ssTache: null })
   nomTache.value = ''
 }
 
-const ssTache = (index) => {
+const ssTache = (index: number): void => {
   taches.value[index].ssTache = [{
     nom: '',
     done: false
   }]
 }
 
-const suppr = (index) => {
+const suppr = (index: number): void => {
   if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
     taches.value.splice(index, 1)
   }

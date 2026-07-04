@@ -21,13 +21,16 @@
     </div>
 </template>
 
-<script setup>
-defineProps({
-  doneTaches: {
-    type: Array,
-    default: () => []
-  }
-})
+<script setup lang="ts">
+interface Tache {
+  nom: string
+  done: boolean
+  ssTache: { nom: string; done: boolean }[] | null
+}
+
+defineProps<{
+  doneTaches: Tache[]
+}>()
 </script>
 
 <style scoped>
