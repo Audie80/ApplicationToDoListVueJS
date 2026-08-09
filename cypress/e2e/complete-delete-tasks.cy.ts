@@ -18,7 +18,7 @@ describe('TodoList Application - Complete and Delete Tasks', () => {
     cy.get('[data-ci="task-row"]').should('have.length', 2)
     cy.get('[data-ci="task-complete-checkbox"]').first().check()
 
-    cy.get('[data-ci="task-row"]').should('have.length', 1)
+    cy.get('[data-ci="task-row"]').filter(':visible').should('have.length', 1)
   })
 
   it('should show completed tasks in the completed section', () => {

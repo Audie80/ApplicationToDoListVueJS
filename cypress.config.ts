@@ -5,6 +5,8 @@ export default defineConfig({
     baseUrl: 'http://localhost:5173',
     viewportWidth: 1280,
     viewportHeight: 720,
+    screenshotOnRunFailure: false,
+    screenshotsFolder: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

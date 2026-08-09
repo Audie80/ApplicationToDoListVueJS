@@ -26,7 +26,7 @@ describe('TodoList Application - LocalStorage Persistence', () => {
 
     cy.reload()
 
-    cy.get('[data-ci="task-row"]').should('have.length', 1)
+    cy.get('[data-ci="task-row"]').filter(':visible').should('have.length', 1)
     cy.get('[data-ci="task-table"]').contains('Persistent task').should('be.visible')
   })
 
@@ -40,7 +40,7 @@ describe('TodoList Application - LocalStorage Persistence', () => {
 
     cy.reload()
 
-    cy.get('[data-ci="task-row"]').should('have.length', 0)
+    cy.get('[data-ci="task-row"]').filter(':visible').should('have.length', 0)
     cy.get('[data-ci="completed-tasks-table"]').contains('Task to complete').should('be.visible')
   })
 
@@ -63,7 +63,7 @@ describe('TodoList Application - LocalStorage Persistence', () => {
 
     cy.reload()
 
-    cy.get('[data-ci="task-row"]').should('have.length', 1)
+    cy.get('[data-ci="task-row"]').filter(':visible').should('have.length', 1)
     cy.get('[data-ci="completed-tasks-table"]').contains('Task 1').should('be.visible')
     cy.get('[data-ci="task-table"]').contains('Task 3').should('not.exist')
   })

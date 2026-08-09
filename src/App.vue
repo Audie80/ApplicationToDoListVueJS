@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <TableauTaches @sendTaches="setTaches" />
+    <TableauTaches :initialTaches="tabTaches" @sendTaches="setTaches" />
     <FinishTaches :doneTaches="doneTachesComputed" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import TableauTaches from './components/TableauTaches.vue'
 import FinishTaches from './components/FinishTaches.vue'
 
@@ -28,13 +28,12 @@ const doneTachesComputed = computed(() =>
 
 // Methods
 const setTaches = (taches: Tache[]): void => {
-  tabTaches.value = taches
-}
-
-// Watchers
-watch(tabTaches, () => {
+  tabTaches.value = taches.map(tache => ({
+    ...tache,
+    ssTache: tache.ssTache ? [...tache.ssTache] : null
+  }))
   localStorage.setItem('tabTaches', JSON.stringify(tabTaches.value))
-}, { deep: true })
+}
 </script>
 
 <style>

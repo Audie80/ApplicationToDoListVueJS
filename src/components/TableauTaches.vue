@@ -33,7 +33,7 @@
                     <td class="col-sm-2"><button class="btn btn-danger" data-ci="subtask-delete-button">Supprimer</button></td>
                   </tr>
                 </td>
-                <td class="col-sm-2"><input type="checkbox" v-model="tache.done" data-ci="task-complete-checkbox"/></td>
+                <td class="col-sm-2"><input type="checkbox" :checked="tache.done" @change="onTaskCompleteChange(index, $event)" data-ci="task-complete-checkbox"/></td>
                 <td class="col-sm-2"><button class="btn btn-danger" @click="ssTache(index)" data-ci="add-subtask-button">Ajouter une sous-tache</button></td>
                 <td class="col-sm-2"><button class="btn btn-danger" @click="suppr(index)" data-ci="delete-task-button">Supprimer</button></td>
             </tr>
@@ -61,21 +61,28 @@ const emit = defineEmits<{
 }>()
 
 const nomTache = ref('')
-const taches = ref<Tache[]>([])
+const taches = ref<Tache[]>(props.initialTaches ? [...props.initialTaches] : [])
+let isSyncingFromParent = false
 
 watch(
   () => props.initialTaches,
   (newValue) => {
     if (newValue) {
-      taches.value = [...newValue]
+      isSyncingFromParent = true
+      taches.value = newValue.map(tache => ({
+        ...tache,
+        ssTache: tache.ssTache ? [...tache.ssTache] : null
+      }))
+      isSyncingFromParent = false
     }
   },
-  { immediate: true, deep: true }
+  { deep: true }
 )
 
 const add = (): void => {
   taches.value.push({ nom: nomTache.value, done: false, ssTache: null })
   nomTache.value = ''
+  emitCurrentTasks()
 }
 
 const ssTache = (index: number): void => {
@@ -83,17 +90,29 @@ const ssTache = (index: number): void => {
     nom: '',
     done: false
   }]
+  emitCurrentTasks()
 }
 
 const suppr = (index: number): void => {
   if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
     taches.value.splice(index, 1)
+    emitCurrentTasks()
   }
 }
 
-watch(taches, () => {
-  emit('sendTaches', taches.value)
-}, { deep: true })
+const onTaskCompleteChange = (index: number, event: Event): void => {
+  const target = event.target as HTMLInputElement | null
+  if (target) {
+    taches.value[index].done = target.checked
+    emitCurrentTasks()
+  }
+}
+
+const emitCurrentTasks = (): void => {
+  if (!isSyncingFromParent) {
+    emit('sendTaches', taches.value)
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
