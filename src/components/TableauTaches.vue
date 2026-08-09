@@ -93,17 +93,17 @@ const ssTache = (index: number): void => {
   emitCurrentTasks()
 }
 
-const suppr = (index: number): void => {
-  if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
-    taches.value.splice(index, 1)
-    emitCurrentTasks()
-  }
-}
-
 const onTaskCompleteChange = (index: number, event: Event): void => {
   const target = event.target as HTMLInputElement | null
   if (target) {
     taches.value[index].done = target.checked
+    emitCurrentTasks()
+  }
+}
+
+const suppr = (index: number): void => {
+  if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
+    taches.value.splice(index, 1)
     emitCurrentTasks()
   }
 }
