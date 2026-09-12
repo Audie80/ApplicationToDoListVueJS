@@ -22,7 +22,7 @@
     "cypress": "^15.20.0",
     "eslint": "^10.0.0",
     "eslint-plugin-vue": "^10.11.0",
-    "globals": "^15.0.0",
+    "globals": "^17.12.0",
     "typescript": "^5.4.5",
     "vite": "^8.2.1",
     "vue-tsc": "^2.0.14"
