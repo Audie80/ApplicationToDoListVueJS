@@ -16,7 +16,7 @@ Application Vue 3 moderne et typée pour gérer vos tâches quotidiennes. Avec s
 ## 🛠️ Stack Technique
 
 - **Vue 3.4.21** - Framework JavaScript progressif
-- **TypeScript 5.4** - Langage typé pour JavaScript
+- **TypeScript 7.0.2** - Compilateur natif pour les fichiers TypeScript
 - **Vite 5.2.11** - Bundler ultra-rapide
 - **Composition API** - API moderne pour les composants
 - **Bootstrap 4** - Framework CSS
@@ -51,7 +51,7 @@ Lance le serveur de développement sur http://localhost:5173 avec hot module rep
 ```bash
 npm run type-check
 ```
-Vérifie tous les fichiers TypeScript sans émettre de fichiers.
+Vérifie les fichiers TypeScript avec TypeScript 7, puis les composants Vue avec `vue-tsc`. TypeScript 7 ne fournit pas encore l'API de compilateur dont `vue-tsc` a besoin; le paquet `typescript` conserve donc l'API de compatibilité TypeScript 6.
 
 ### Build de production
 ```bash
