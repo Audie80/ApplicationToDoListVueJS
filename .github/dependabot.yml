@@ -6,6 +6,8 @@
 version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
+    allow:
+      - dependency-type: "direct"
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
