@@ -1,8 +1,5 @@
-// Cypress support file for e2e tests
-// Learn more: https://docs.cypress.io/api/introduction/api.html
-
 // Hide fetch/XHR requests in command log
-const app = window.top as Window | null
+const app = window.top
 
 if (app?.document.head && !app.document.head.querySelector('[data-hide-command-log-request]')) {
   const style = app.document.createElement('style')

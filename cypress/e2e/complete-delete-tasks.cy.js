@@ -28,15 +28,15 @@ describe('TodoList Application - Complete and Delete Tasks', () => {
 
   it('should delete a task when delete button is clicked', () => {
     cy.get('[data-ci="task-row"]').should('have.length', 1)
-    cy.get('[data-ci="delete-task-button"]').first().click()
     cy.on('window:confirm', () => true)
+    cy.get('[data-ci="delete-task-button"]').first().click()
     cy.get('[data-ci="task-row"]').should('have.length', 0)
   })
 
   it('should not delete task when canceling the confirmation', () => {
     cy.get('[data-ci="task-row"]').should('have.length', 1)
-    cy.get('[data-ci="delete-task-button"]').first().click()
     cy.on('window:confirm', () => false)
+    cy.get('[data-ci="delete-task-button"]').first().click()
     cy.get('[data-ci="task-row"]').should('have.length', 1)
   })
 })

@@ -5,20 +5,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import TableauTaches from './components/TableauTaches.vue'
 import FinishTaches from './components/FinishTaches.vue'
 
-interface Tache {
-  nom: string
-  done: boolean
-  ssTache: { nom: string; done: boolean }[] | null
-}
-
 // State
-const tabTaches = ref<Tache[]>(
-  (localStorage.getItem('tabTaches')) ? JSON.parse(localStorage.getItem('tabTaches')!) : []
+const tabTaches = ref(
+  localStorage.getItem('tabTaches') ? JSON.parse(localStorage.getItem('tabTaches')) : []
 )
 
 // Computed
@@ -27,7 +21,7 @@ const doneTachesComputed = computed(() =>
 )
 
 // Methods
-const setTaches = (taches: Tache[]): void => {
+const setTaches = (taches) => {
   tabTaches.value = taches.map(tache => ({
     ...tache,
     ssTache: tache.ssTache ? [...tache.ssTache] : null

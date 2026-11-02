@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run type-check && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --fix",
-    "type-check": "tsc --noEmit && vue-tsc --noEmit",
     "e2e:run": "cypress run"
   },
   "dependencies": {

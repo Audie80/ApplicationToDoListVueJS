@@ -58,8 +58,8 @@ describe('TodoList Application - LocalStorage Persistence', () => {
 
     cy.get('[data-ci="task-complete-checkbox"]').first().check()
 
-    cy.get('[data-ci="delete-task-button"]').last().click()
     cy.on('window:confirm', () => true)
+    cy.get('[data-ci="delete-task-button"]').last().click()
 
     cy.reload()
 

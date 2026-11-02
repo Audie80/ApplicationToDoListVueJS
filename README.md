@@ -1,6 +1,6 @@
 # TodoList Application
 
-Application Vue 3 moderne et typée pour gérer vos tâches quotidiennes. Avec stockage localStorage pour la persistance des données.
+Application Vue 3 moderne en JavaScript pour gérer vos tâches quotidiennes. Avec stockage localStorage pour la persistance des données.
 
 ## ✨ Caractéristiques
 
@@ -8,7 +8,7 @@ Application Vue 3 moderne et typée pour gérer vos tâches quotidiennes. Avec s
 - ✅ Ajouter des sous-tâches
 - ✅ Persistance des données avec localStorage
 - ✅ Interface responsive avec Bootstrap 4
-- ✅ **TypeScript** pour la sécurité du typage
+- ✅ **JavaScript** avec l'API Composition de Vue
 - ✅ Composition API moderne
 - ✅ Vite pour le développement rapide
 - ✅ ESLint flat config pour le linting
@@ -16,8 +16,8 @@ Application Vue 3 moderne et typée pour gérer vos tâches quotidiennes. Avec s
 ## 🛠️ Stack Technique
 
 - **Vue 3.4.21** - Framework JavaScript progressif
-- **TypeScript 7.0.2** - Compilateur natif pour les fichiers TypeScript
-- **Vite 5.2.11** - Bundler ultra-rapide
+- **JavaScript (ES modules)** - Langage de l'application et des tests
+- **Vite** - Bundler ultra-rapide
 - **Composition API** - API moderne pour les composants
 - **Bootstrap 4** - Framework CSS
 - **ESLint 10** - Linting du code (flat config)
@@ -47,17 +47,11 @@ npm run dev
 ```
 Lance le serveur de développement sur http://localhost:5173 avec hot module replacement et rechargement automatique.
 
-### Vérification des types
-```bash
-npm run type-check
-```
-Vérifie les fichiers TypeScript avec TypeScript 7, puis les composants Vue avec `vue-tsc`. TypeScript 7 ne fournit pas encore l'API de compilateur dont `vue-tsc` a besoin; le paquet `typescript` conserve donc l'API de compatibilité TypeScript 6.
-
 ### Build de production
 ```bash
 npm run build
 ```
-Vérifie les types et génère les fichiers optimisés dans le dossier `dist/`.
+Génère les fichiers optimisés dans le dossier `dist/`.
 
 ### Preview
 ```bash
@@ -73,7 +67,7 @@ Vérifie et corrige le code selon les règles ESLint.
 
 ### Tests end-to-end
 ```bash
-npm run e2e
+npx cypress open
 ```
 Ouvre l'interface interactive Cypress pour exécuter les tests E2E.
 
@@ -88,26 +82,26 @@ Les tests end-to-end couvrent toutes les fonctionnalités principales :
 
 ### Tests disponibles
 
-1. **add-tasks.cy.ts** - Ajout de tâches
+1. **add-tasks.cy.js** - Ajout de tâches
    - Affichage de l'application
    - Ajout d'une nouvelle tâche
    - Validation du bouton (désactivé si vide)
    - Ajout de multiples tâches
    - Nettoyage de l'input après ajout
 
-2. **complete-delete-tasks.cy.ts** - Complétion et suppression
+2. **complete-delete-tasks.cy.js** - Complétion et suppression
    - Marquer une tâche comme terminée
    - Masquer les tâches complétées
    - Afficher les tâches complétées
    - Supprimer une tâche
    - Annuler la suppression
 
-3. **subtasks.cy.ts** - Sous-tâches
+3. **subtasks.cy.js** - Sous-tâches
    - Ajouter une sous-tâche
    - Éditer le nom de la sous-tâche
    - Marquer une sous-tâche comme complétée
 
-4. **persistence.cy.ts** - Persistance localStorage
+4. **persistence.cy.js** - Persistance localStorage
    - Sauvegarder les tâches dans localStorage
    - Charger les tâches après rechargement
    - Persister l'état de complétion
@@ -119,30 +113,26 @@ Les tests end-to-end couvrent toutes les fonctionnalités principales :
 ```
 .
 ├── index.html                  # Fichier HTML principal (point d'entrée Vite)
-├── vite.config.ts              # Configuration Vite (TypeScript)
-├── cypress.config.ts           # Configuration Cypress E2E
-├── tsconfig.json               # Configuration TypeScript
-├── tsconfig.node.json          # Configuration TypeScript pour config files
+├── vite.config.js              # Configuration Vite
+├── cypress.config.js           # Configuration Cypress E2E
 ├── eslint.config.js            # Configuration ESLint (flat config)
 ├── package.json                # Dépendances et scripts
 ├── src/
-│   ├── main.ts                 # Point d'entrée Vue (TypeScript)
-│   ├── vite-env.d.ts           # Types globaux Vite
+│   ├── main.js                 # Point d'entrée Vue
 │   ├── App.vue                 # Composant racine
 │   └── components/
 │       ├── TableauTaches.vue   # Composant pour ajouter et lister les tâches
 │       └── FinishTaches.vue    # Composant pour afficher les tâches terminées
 ├── cypress/
 │   ├── support/
-│   │   └── e2e.ts              # Configuration support Cypress
+│   │   └── e2e.js              # Configuration support Cypress
 │   └── e2e/
-│       ├── add-tasks.cy.ts             # Tests d'ajout de tâches
-│       ├── complete-delete-tasks.cy.ts # Tests de complétion/suppression
-│       ├── subtasks.cy.ts              # Tests des sous-tâches
-│       └── persistence.cy.ts           # Tests de persistance localStorage
+│       ├── add-tasks.cy.js             # Tests d'ajout de tâches
+│       ├── complete-delete-tasks.cy.js # Tests de complétion/suppression
+│       ├── subtasks.cy.js              # Tests des sous-tâches
+│       └── persistence.cy.js           # Tests de persistance localStorage
 └── public/
     └── favicon.ico             # Favicon
-```
 ```
 
 ## 🎯 Utilisation
@@ -165,7 +155,7 @@ Les tâches sont automatiquement sauvegardées dans le localStorage de votre nav
 - ✅ **Migration Vue 2 → Vue 3** - Framework modernisé
 - ✅ **Migration Webpack → Vite** - Démarrage et build beaucoup plus rapides
 - ✅ **Migration Options API → Composition API** - Code plus réutilisable et lisible
-- ✅ **Ajout de TypeScript** - Sécurité du typage et meilleure DX
+- ✅ **Migration complète vers JavaScript** - Application, configuration et tests
 - ✅ **Configuration ESLint moderne** - Flat config (v9+)
 - ✅ **Dépendances à jour** - Compatibilité Node 24
 - ✅ **Suppression de Babel** - Plus simple, plus rapide avec Vite

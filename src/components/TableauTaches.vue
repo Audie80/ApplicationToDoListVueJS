@@ -43,25 +43,20 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from 'vue'
 
-interface Tache {
-  nom: string
-  done: boolean
-  ssTache: { nom: string; done: boolean }[] | null
-}
+const props = defineProps({
+  initialTaches: {
+    type: Array,
+    default: () => []
+  }
+})
 
-const props = defineProps<{
-  initialTaches?: Tache[]
-}>()
-
-const emit = defineEmits<{
-  sendTaches: [taches: Tache[]]
-}>()
+const emit = defineEmits(['sendTaches'])
 
 const nomTache = ref('')
-const taches = ref<Tache[]>(props.initialTaches ? [...props.initialTaches] : [])
+const taches = ref([...props.initialTaches])
 let isSyncingFromParent = false
 
 watch(
@@ -79,13 +74,13 @@ watch(
   { deep: true }
 )
 
-const add = (): void => {
+const add = () => {
   taches.value.push({ nom: nomTache.value, done: false, ssTache: null })
   nomTache.value = ''
   emitCurrentTasks()
 }
 
-const ssTache = (index: number): void => {
+const ssTache = (index) => {
   taches.value[index].ssTache = [{
     nom: '',
     done: false
@@ -93,22 +88,22 @@ const ssTache = (index: number): void => {
   emitCurrentTasks()
 }
 
-const onTaskCompleteChange = (index: number, event: Event): void => {
-  const target = event.target as HTMLInputElement | null
+const onTaskCompleteChange = (index, event) => {
+  const target = event.target
   if (target) {
     taches.value[index].done = target.checked
     emitCurrentTasks()
   }
 }
 
-const suppr = (index: number): void => {
+const suppr = (index) => {
   if (confirm('Voulez-vous vraiment supprimer cette tâche ?')) {
     taches.value.splice(index, 1)
     emitCurrentTasks()
   }
 }
 
-const emitCurrentTasks = (): void => {
+const emitCurrentTasks = () => {
   if (!isSyncingFromParent) {
     emit('sendTaches', taches.value)
   }
